@@ -48,12 +48,39 @@ namespace EventBus.Bus
                 Uri = new Uri(connectionString)
             };
 
-            var connection = await factory.CreateConnectionAsync();
-            var channel = await connection.CreateChannelAsync();
-            await channel.ExchangeDeclareAsync(exchange: exchangeName, type: ExchangeType.Direct);
+            var timeout = TimeSpan.FromMinutes(3);
+            var startTime = DateTime.UtcNow;
+
+            IConnection connection = null;
+            IChannel channel = null;
+
+            while (true)
+            {
+                try
+                {
+                    connection = await factory.CreateConnectionAsync();
+                    channel = await connection.CreateChannelAsync();
+                    await channel.ExchangeDeclareAsync(exchange: exchangeName, type: ExchangeType.Direct);
+
+                    logger.LogInformation("✅ RabbitMQ connection established and exchange declared.");
+                    break;
+                }
+                catch (Exception ex)
+                {
+                    if (DateTime.UtcNow - startTime > timeout)
+                    {
+                        logger.LogError(ex, "❌ Failed to connect to RabbitMQ after 3 minutes.");
+                        throw;
+                    }
+
+                    logger.LogWarning("⏳ RabbitMQ not available yet. Retrying in 5 seconds...");
+                    await Task.Delay(5000);
+                }
+            }
 
             return new RabbitMQEventBus(serviceScopeFactory, logger, exchangeName, connection, channel);
         }
+
 
         public async Task PublishAsync<T>(T @event) where T : IntegrationEvent
         {

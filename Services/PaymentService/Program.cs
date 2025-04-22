@@ -22,8 +22,16 @@ namespace PaymentService
             builder.Services.AddSwaggerGen();
 
             // Add database context
+            var connectionString = builder.Configuration.GetConnectionString("PaymentDatabase");
+
             builder.Services.AddDbContext<PaymentDbContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("PaymentDatabase")));
+                options.UseSqlServer(connectionString, sqlOptions =>
+                {
+                    sqlOptions.EnableRetryOnFailure(
+                        maxRetryCount: 10,
+                        maxRetryDelay: TimeSpan.FromSeconds(10),
+                        errorNumbersToAdd: null);
+                }));
 
             // Add RabbitMQ Event Bus
             var rabbitMQConnectionString = builder.Configuration.GetValue<string>("RabbitMQ:ConnectionString");

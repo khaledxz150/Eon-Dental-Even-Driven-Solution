@@ -29,9 +29,18 @@ namespace OrderService
                 });
             });
 
-            // Add database context
+
+            // Add database context with retry policy
+            var connectionString = builder.Configuration.GetConnectionString("OrderDatabase");
+
             builder.Services.AddDbContext<OrderDbContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("OrderDatabase")));
+                options.UseSqlServer(connectionString, sqlOptions =>
+                {
+                    sqlOptions.EnableRetryOnFailure(
+                        maxRetryCount: 10,
+                        maxRetryDelay: TimeSpan.FromSeconds(10),
+                        errorNumbersToAdd: null);
+                }));
 
             // Add RabbitMQ Event Bus
             var rabbitMQConnectionString = builder.Configuration.GetValue<string>("RabbitMQ:ConnectionString");
