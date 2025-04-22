@@ -1,0 +1,74 @@
+# docker-compose.yml
+version: '3.8'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - microservice-network
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=P@ssw0rd
+    ports:
+      - "1434:1433"
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+    networks:
+      - microservice-network
+
+  order-service:
+    build:
+      context: .
+      dockerfile: Services/OrderService/Dockerfile
+    container_name: order-service
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__OrderDatabase=Server=sqlserver,1433;Database=OrderDb;User Id=sa;Password=P@ssw0rd;TrustServerCertificate=True
+      - RabbitMQ__ConnectionString=amqp://guest:guest@rabbitmq:5672
+      - RabbitMQ__ExchangeName=microservices_exchange
+    ports:
+      - "5001:8080"
+    depends_on:
+      - sqlserver
+      - rabbitmq
+    networks:
+      - microservice-network
+
+  payment-service:
+    build:
+      context: .
+      dockerfile: Services/PaymentService/Dockerfile
+    container_name: payment-service
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__PaymentDatabase=Server=sqlserver,1433;Database=PaymentDb;User Id=sa;Password=P@ssw0rd;TrustServerCertificate=True
+      - RabbitMQ__ConnectionString=amqp://guest:guest@rabbitmq:5672
+      - RabbitMQ__ExchangeName=microservices_exchange
+    ports:
+      - "5002:8080"
+    depends_on:
+      - sqlserver
+      - rabbitmq
+    networks:
+      - microservice-network
+
+networks:
+  microservice-network:
+    driver: bridge
+
+volumes:
+  rabbitmq_data:
+  sqlserver_data:

@@ -1,0 +1,58 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35913.81
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8EC462FD-D22E-90A8-E5CE-7E832BA40C5D}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{43E84574-A483-446E-A0F6-59F4C5ADF3BC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderService", "Services\OrderService\OrderService.csproj", "{50FAED4A-44C3-47BB-AFD8-9C7AD3EC3FD2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentService", "Services\PaymentService\PaymentService.csproj", "{F1FD0C91-9F77-CCB3-5518-F2CD51FD4BB8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventBus", "Common\EventBus\EventBus.csproj", "{BE112186-455E-4A22-A40F-8823D6D6C915}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enums", "Common\Enums\Enums.csproj", "{8D9DCD42-C16F-4BC9-8003-BE58EB5152C3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{50FAED4A-44C3-47BB-AFD8-9C7AD3EC3FD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50FAED4A-44C3-47BB-AFD8-9C7AD3EC3FD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50FAED4A-44C3-47BB-AFD8-9C7AD3EC3FD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50FAED4A-44C3-47BB-AFD8-9C7AD3EC3FD2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1FD0C91-9F77-CCB3-5518-F2CD51FD4BB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1FD0C91-9F77-CCB3-5518-F2CD51FD4BB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1FD0C91-9F77-CCB3-5518-F2CD51FD4BB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1FD0C91-9F77-CCB3-5518-F2CD51FD4BB8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE112186-455E-4A22-A40F-8823D6D6C915}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE112186-455E-4A22-A40F-8823D6D6C915}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE112186-455E-4A22-A40F-8823D6D6C915}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE112186-455E-4A22-A40F-8823D6D6C915}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D9DCD42-C16F-4BC9-8003-BE58EB5152C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D9DCD42-C16F-4BC9-8003-BE58EB5152C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D9DCD42-C16F-4BC9-8003-BE58EB5152C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D9DCD42-C16F-4BC9-8003-BE58EB5152C3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{50FAED4A-44C3-47BB-AFD8-9C7AD3EC3FD2} = {43E84574-A483-446E-A0F6-59F4C5ADF3BC}
+		{F1FD0C91-9F77-CCB3-5518-F2CD51FD4BB8} = {43E84574-A483-446E-A0F6-59F4C5ADF3BC}
+		{BE112186-455E-4A22-A40F-8823D6D6C915} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{8D9DCD42-C16F-4BC9-8003-BE58EB5152C3} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EA997D1B-1F3D-4BCD-8DCF-5C5BD1DBDD36}
+	EndGlobalSection
+EndGlobal
